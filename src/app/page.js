@@ -21,6 +21,27 @@ const page = () => {
     pageRange,
   } = useGetProduct();
 
+  console.log("productsData:", productsData);
+  console.log("filteredProducts:", filteredProducts);
+
+  const sortOptions = [
+    { value: "new", label: "New" },
+    { value: "old", label: "Old" },
+  ];
+
+  const selectedSort = sortOptions[0];
+  const handleSortChange = (e) => {
+    console.log("Selected sort option:", e.target.value);
+
+    // Implement sorting logic here based on the selected option
+    // For example, you might want to sort `filteredProducts` accordingly
+    filteredProducts.sort((a, b) => {
+      if (e.target.value === "new") {
+        return new Date(b.createdAT) - new Date(a.createdAT);
+      }
+    })
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       {/* Header Section */}
@@ -35,6 +56,17 @@ const page = () => {
 
       {/* Products Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div>
+          Sort by:{" "}
+          <select className="border border-gray-300 rounded-md p-2" onChange={handleSortChange} value={selectedSort.value}
+          >
+            {sortOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
         {/* Results Info */}
         <div className="mb-6">
           <p className="text-gray-600">
